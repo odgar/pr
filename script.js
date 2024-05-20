@@ -28,14 +28,14 @@ function draw()
     ctx.fillRect((width - paddle_offset - paddle_width),right_paddle_top,paddle_width,paddle_height);
 
 //score
-var leftScore = 0;
-var rightScore = 0;
+var leftScore = 0; 
+var rightScore = 0; 
 //draw score 
-ctx.font = "30px monospace";
-ctx.textAlign = "left";
-ctx.fillText(leftScore.toString(), 100, 50);
-ctx.textAlign = "right";
-ctx.fillText(rightScore.toString(), width - 100, 50);
+ctx.font = "30px monospace"; 
+ctx.textAlign = "left"; 
+ctx.fillText(leftScore.toString(), 100, 50); 
+ctx.textAlign = "right"; 
+ctx.fillText(rightScore.toString(), width - 100, 50); 
 
 }
 
