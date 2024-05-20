@@ -27,9 +27,8 @@ function draw()
 
     ctx.fillRect((width - paddle_offset - paddle_width),right_paddle_top,paddle_width,paddle_height);
 
-//score
-var leftScore = 0; 
-var rightScore = 0; 
+
+
 //draw score 
 ctx.font = "30px monospace"; 
 ctx.textAlign = "left"; 
@@ -37,9 +36,11 @@ ctx.fillText(leftScore.toString(), 100, 50);
 ctx.textAlign = "right"; 
 ctx.fillText(rightScore.toString(), width - 100, 50); 
 
+
 }
 
-
+var leftScore = 0;
+var rightScore = 0;
 
 
 // -------BALL-----------
@@ -65,6 +66,8 @@ function update_ball()
 
 function check_collide()
 {
+
+    
 // (Local) ball object to track the sides of the ball
     var ball = {
         left: ball_move.x,
@@ -99,8 +102,17 @@ function check_collide()
     if(ball.top < 0 || ball.bottom > height)
     {
 // reverse the travel direction
+
     y_speed = -y_speed
     }
+
+if(ball.left < 0){
+    rightScore++
+}
+if(ball.right > width){
+    leftScore++
+}
+
 
 
     if (check_paddle_collide(ball, left_paddle)){
