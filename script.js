@@ -30,7 +30,7 @@ function draw()
 //score
 var leftScore = 0;
 var rightScore = 0;
-//draw score
+//draw score 
 ctx.font = "30px monospace";
 ctx.textAlign = "left";
 ctx.fillText(leftScore.toString(), 100, 50);
