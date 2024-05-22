@@ -1,11 +1,23 @@
+//when website loads
+document.addEventListener('DOMContentLoaded', () => {
+    playMusic();
+});
+
 //html elements
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
 
 // static variables
 const width = canvas.width;
 const height =canvas.height
 
+//audios
+//function to play correct audio
+function playMusic() {
+    var music = new Audio('assets/music.mp3');
+    music.play();
+};
 // build play area
 ctx.fillStyle ="black";
 ctx.fillRect(0,0,width,height);
@@ -14,7 +26,7 @@ ctx.fillRect(0,0,width,height);
 function draw()
 {
 // draw/redraw play area
-    ctx.fillStyle ="black";
+    ctx.fillStyle ="grey";
     ctx.fillRect(0,0,width,height);
 
 // draw/redraw ball
@@ -33,43 +45,47 @@ ctx.fillStyle = "green";
 
 //draw score 
 ctx.fillStyle = "white";
-ctx.font = "30px monospace"; 
+ctx.font = "60px monospace";
 ctx.textAlign = "left"; 
 
 ctx.fillText(leftScore.toString(), 100, 50); 
 ctx.textAlign = "right"; 
 
 ctx.fillText(rightScore.toString(), width - 100, 50); 
-}
 
+if(game_over){
+    ctx.fillStyle = "white";
+    ctx.font = "60px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", width / 2, height / 2);
+    }
+}
+var game_over = false;
 var leftScore = 0;
 var rightScore = 0;
 
 
 //draw game over
 
-if(game_over){
-ctx.fillStyle = "white";
-ctx.font = "3px monospace";
-ctx.textAlign = "center";
-ctx.fillText("GAME OVER", width / 2, height / 2);
-}
+
+
+
 
 // -------BALL-----------
 // (global) dictate the ball size
-const ball_size = 10;
+const ball_size = 20;
 // (global) dictates starting position of the ball
 var ball_move = { x:70 , y:30 }
 
 // (global) horizontal nand vertical rate of change
-var x_speed = 5;
-var y_speed = 3;
+var x_speed = 10;
+var y_speed = 8;
 
 //start bawl
 function init_ball(){
     ball_move = {x:10 , y:40};
-    x_speed = 5;
-    y_speed = 3;
+    x_speed = 10;
+    y_speed = 8;
 }
 
 
@@ -118,8 +134,9 @@ function check_collide()
         init_ball();
     };
 
-if(leftScore == 10 || rightScore == 10){
+if(leftScore === 10 || rightScore === 10){
     game_over = true;
+    return(playMusic());
 }
 
 // if the ball hits the top/ bottom side of the canvas
@@ -196,14 +213,15 @@ function adjustAngle(distanceFromTop, distanceFromBottom){
 
 //~~~~~~PADDLE~~~~~~
 
-const paddle_width = 5; 
-const paddle_height = 50;
-const paddle_offset = 10;
+const paddle_width = 10; 
+const paddle_height = 150;
+const paddle_offset = 15;
 
 var left_paddle_top = 30;
 var right_paddle_top = 30;
+var paddle_modifier = 5;
 
-var paddle_speed = 3;
+var paddle_speed = 10;
 
 function track_ball(){
     //create condsensed ball that is only the top and bottom
@@ -218,11 +236,11 @@ function track_ball(){
     }
 
     if (ball.top < left_paddle.top){
-        left_paddle_top -= paddle_speed;
+        left_paddle_top -= paddle_speed * Math.random() + paddle_modifier;
     }
 
     if (ball.bottom > left_paddle.bottom){
-        left_paddle_top += paddle_speed;
+        left_paddle_top += paddle_speed * Math.random(); + paddle_modifier;
     }
 }
 
@@ -230,20 +248,19 @@ function track_ball(){
 document.addEventListener("mousemove", (event) =>{
     //tracks offset of mouse and moves paddle with y coordinate of mouse
     right_paddle_top = event.offsetY;
-});
+})
 
 
 
 //main game loop
 function game_loop()
 {
+    if(!game_over){
+        check_collide();
+        setTimeout(game_loop, 20);
+    }
     draw();
     update_ball();
-    check_collide();
-    setTimeout(game_loop, 30);
-    check_paddle_collide;
-    init_ball;
-    track_ball;
 };
 
 // call main loop to start the game
