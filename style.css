@@ -1,5 +1,11 @@
+/*canvas styling*/
 #canvas{
         margin-left: auto;
         margin-right: auto;
         display: block;
+}
+/*container for all content*/
+#container{
+        align-items: center;
+        text-align: center;
 }

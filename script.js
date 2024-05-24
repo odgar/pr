@@ -1,4 +1,5 @@
 //when website loads
+//play music upon loading 
 document.addEventListener('DOMContentLoaded', () => {
     playMusic();
 });
@@ -47,12 +48,13 @@ ctx.fillStyle = "green";
 ctx.fillStyle = "white";
 ctx.font = "60px monospace";
 ctx.textAlign = "left"; 
-
+//left score
 ctx.fillText(leftScore.toString(), 100, 50); 
 ctx.textAlign = "right"; 
-
+//right score
 ctx.fillText(rightScore.toString(), width - 100, 50); 
 
+//draw game over function
 if(game_over){
     ctx.fillStyle = "white";
     ctx.font = "60px monospace";
@@ -81,7 +83,7 @@ var ball_move = { x:70 , y:30 }
 var x_speed = 10;
 var y_speed = 8;
 
-//start bawl
+//speed of ball after initializing
 function init_ball(){
     ball_move = {x:10 , y:40};
     x_speed = 10;
@@ -91,10 +93,10 @@ function init_ball(){
 
 //update the ball's current xy
 function update_ball()
-{
+{   //add on to the existing xy coordinate
     ball_move.x += x_speed;
     ball_move.y += y_speed;
-    track_ball();
+    track_ball(); //track ball function is added for the paddle to know its position
 }
 
 
@@ -133,10 +135,11 @@ function check_collide()
 // reverse the travel direction
         init_ball();
     };
-
+//if either left or right score = 10, game_over variable = true
 if(leftScore === 10 || rightScore === 10){
     game_over = true;
-    return(playMusic());
+    y_speed=0;
+    x_speed=0;
 }
 
 // if the ball hits the top/ bottom side of the canvas
@@ -147,15 +150,17 @@ if(leftScore === 10 || rightScore === 10){
     y_speed = -y_speed
     }
 
+    //if ball touches left side of canvas, right score
 if(ball.left < 0){
     rightScore++
 }
+//if ball touches right side of canvas, left score
 if(ball.right > width){
     leftScore++
 }
 
 
-
+//check collision for left side of paddle
     if (check_paddle_collide(ball, left_paddle)){
         let distanceFromTop = ball.top - left_paddle_top;
         let distanceFromBottom = left_paddle.bottom - ball.bottom;
@@ -164,7 +169,7 @@ if(ball.right > width){
         
     };
 
-
+//check collision for right side of paddle
     if (check_paddle_collide(ball, right_paddle)){
         let distanceFromTop = ball.top - right_paddle_top;
         let distanceFromBottom = right_paddle.bottom - ball.bottom;
@@ -192,7 +197,7 @@ function adjustAngle(distanceFromTop, distanceFromBottom){
 }
 
 
-
+//values are created to represent their position in the if statement, and later replaced for actual variables
 
         function check_paddle_collide(chk_ball, chk_paddle){
             
@@ -213,16 +218,20 @@ function adjustAngle(distanceFromTop, distanceFromBottom){
 
 //~~~~~~PADDLE~~~~~~
 
+//paddle offset and size
 const paddle_width = 10; 
 const paddle_height = 150;
 const paddle_offset = 15;
 
+//left paddle offset and size and modifier
 var left_paddle_top = 30;
 var right_paddle_top = 30;
 var paddle_modifier = 5;
 
+//speed which paddle can move
 var paddle_speed = 10;
 
+//function tp track ball for the paddle, allowing for adjustment in speeds
 function track_ball(){
     //create condsensed ball that is only the top and bottom
     var ball ={
@@ -245,6 +254,7 @@ function track_ball(){
 }
 
 // gameplay
+//event listener for right paddle movement (tracks mouse movement for paddle to move with)
 document.addEventListener("mousemove", (event) =>{
     //tracks offset of mouse and moves paddle with y coordinate of mouse
     right_paddle_top = event.offsetY;
@@ -255,13 +265,29 @@ document.addEventListener("mousemove", (event) =>{
 //main game loop
 function game_loop()
 {
+    //as long as game over is false, the game will run
     if(!game_over){
         check_collide();
         setTimeout(game_loop, 20);
     }
     draw();
+    if(game_over=false){
+        leftScore =0;
+        rightScore =0;
+}
     update_ball();
 };
 
 // call main loop to start the game
 game_loop();
+
+//play again function for button
+function playAgain(){
+	//Game over is set to false; both scores are set to 0; the speeds are set to normal again.
+	game_over=false;
+	leftScore =0;
+	rightScore=0;
+	x_speed= 15;
+	y_speed=10
+
+}

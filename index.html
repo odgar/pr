@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--link css-->
     <link rel = "stylesheet" href="style.css">
+    <!--link audio-->
     <link rel ="assets/music.mp3">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--title-->
     <title>Pong</title>
 </head>
 <body>
-    <canvas id="canvas" width="830" height="830"></canvas>
+    <!--container for css-->
+    <div id="container"> 
+        <!--play again button-->
+        <button id="playAgain" onclick="playAgain()">Play Again</button>
+        <!--canvas-->
+        <canvas id="canvas" width="830" height="830"></canvas>
+</div>
+<!--link javascript-->
     <script src="script.js"></script>
 </body>
 </html>
